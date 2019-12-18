@@ -1,18 +1,18 @@
-﻿#include <deque>
-#include <iostream>
+﻿#include <iostream>
 #include <algorithm>
 #include <string>
+#include <cstring>
 
 using namespace std;
-
+template <class T>
 class Deque {
-	int elem[100000];
+	T elem[100000];
 	int front = 50000;
 	int back = 50000;
 public:
 	Deque();
-	int push_front(int n);
-	int push_back(int n);
+	int push_front(T n);
+	int push_back(T n);
 	int pop_front();
 	int pop_back();
 	int size();
@@ -21,53 +21,64 @@ public:
 	int Empty();
 
 };
-Deque::Deque() { front = NULL; back = NULL; }
-
-int Deque::push_front(int n) {
+template <class T>
+Deque<T>::Deque() { front = NULL; back = NULL; }
+template <class T>
+int Deque<T>::push_front(T n) {
 	elem[--front] = n;
 	return n;
 }
-int Deque::push_back(int n) {
+template <class T>
+int Deque<T>::push_back(T n) {
 	elem[back++] = n;
 	return n;
 }
-int  Deque::pop_front() {
+template <class T>
+int  Deque<T>::pop_front() {
 	int r = elem[front];
 	elem[front++] = 0;
 	return r;
 }
-int  Deque::pop_back() {
+template <class T>
+int Deque<T>::pop_back() {
 	int r = elem[front];
 	elem[--back] = 0;
 	return r;
 }
-int Deque::size() {
+template <class T>
+int Deque<T>::size() {
 	int count = 0;
 	for (int i = back; i > front; i--) {
 		count++;
 	}
 	return count;
 }
-int  Deque::Front() {
+template <class T>
+int  Deque<T>::Front() {
 	return elem[front];
 }
-int Deque::Back() {
+template <class T>
+int Deque<T>::Back() {
 	return elem[back - 1];
 }
-int Deque::Empty() {
+template <class T>
+int Deque<T>::Empty() {
 	if (front == back) return 1;
 	else return 0;
 }
 
-void main() {
-	Deque deque;
+
+int main() {
+	Deque<int> deque;
 
 	int inst;
 	cin >> inst;
 	int i = 0;
+	
 	int num;
 	string instruction;
-	char* tok1[2], * context;
+	char* tok1[2];
+	char *context;
 	const char* const instSet[8] = {
 		"push_front", "push_back", "pop_front", "pop_back", "size", "empty", "front","back"
 	};
@@ -102,4 +113,5 @@ void main() {
 		}
 		i++;
 	}
+	return 0;
 }

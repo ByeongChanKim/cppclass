@@ -1,20 +1,91 @@
-﻿// 1212.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
+﻿#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <queue>
+#include <iterator>
+using namespace std;
 
-#include <iostream>
+queue<char> cque;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+template<class Typ, class charT, class traits = char_traits<charT>>
+struct omanip {
+	Typ n;
+	void(*f)(basic_ostream<charT, traits>&, Typ);
+	omanip(void(*f1)(basic_ostream<charT, traits>&, Typ), Typ n1) :f(f1), n(n1) {}
+};
+
+template<class charT, class traits, class Typ>
+basic_ostream<charT, traits>& operator<<(basic_ostream<charT, traits>& os,
+	const omanip<Typ, charT>& sman) {
+	(sman.f)(os, sman.n);
+	return os;
 }
 
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
+void stepws_str(ostream& os, char* str) {
+	char ch = *str;
+	cque.push(ch);
+	static int j = 1;
+	if (str == "") {
+		os.width(1);
+		j = 1;
+		while (!cque.empty()) {
+			cque.pop();
+		}
+	}
+	else {
+		queue<char> another;
+		while (!cque.empty()) {
+			os << cque.front();
+			another.push(cque.front());
+			cque.pop();
+		}
+		while (!another.empty()) {
+			cque.push(another.front());
+			another.pop();
+		}
 
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
+	}
+
+}
+void stempws_static(ostream& os, char* str) {
+	static string hapstr = "";
+	hapstr.append(str);
+	if (str == "") {
+		hapstr.clear();
+		os << "";
+	}
+	else {
+		os << hapstr.c_str();
+	}
+}
+
+omanip<char*, char> stepws(char* str) {
+	//return omanip<char*, char>(stepws_str, str);
+	return omanip<char*, char>(stempws_static, str);
+}
+
+
+ostream& setwpf(ostream& out) {
+	static int i = 3;
+	out.width(i++);
+	return out;
+}
+int main() {
+	cout << 10 << endl;
+	cout << setwpf << 20 << endl;
+	cout << setwpf << 30 << endl;
+	cout << setwpf << 40 << endl;
+	cout << 50 << endl;
+	cout << setwpf << 60 << endl;
+	cout << setwpf << 70 << endl;
+
+	cout << 10 << endl;
+	cout << stepws("#") << 20 << endl;
+	cout << stepws("#") << 30 << endl;
+	cout << stepws("#") << 40 << endl;
+	cout << stepws("") << 50 << endl;
+	cout << stepws("*") << 60 << endl;
+	cout << stepws("$") << 70 << endl;
+	cout << stepws("!") << 80 << endl;
+	cout << stepws("@") << 90 << endl;
+}
