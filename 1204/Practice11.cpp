@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <istream>
 #include <iomanip>
 #include <string>
 
@@ -7,7 +8,7 @@
 
 using namespace std;
 
-void printInt(ostream& out, char operat, string op1, string op2, int result, int lineNum) {
+void printInt(ofstream& out, char operat, string op1, string op2, int result, int lineNum) {
 	int start_pos = lineNum * (CHPERLINE + 1);
 	out.seekp(start_pos, ios_base::beg);
 
@@ -20,7 +21,7 @@ void printInt(ostream& out, char operat, string op1, string op2, int result, int
 	out.width(15);
 	out.unsetf(ios_base::left);
 	out.setf(ios_base::dec, ios_base::basefield);
-	out << "dec : " + to_string(result);
+	out <<"dec : " + to_string(result);
 
 	out.setf(ios_base::oct, ios_base::basefield);
 	out.setf(ios_base::showbase);
@@ -52,6 +53,8 @@ void printDouble(ostream& out, char operat, string op1, string op2, double resul
 }
 
 int main() {
+	char* aasdf;
+	
 	ifstream ifs("calculation.txt");
 	ofstream ofs("result.txt");
 
