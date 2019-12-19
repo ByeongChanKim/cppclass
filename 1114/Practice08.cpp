@@ -1,11 +1,13 @@
 ﻿#include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
 class BoundCheck2DIntArray {
 private:
 	int** arr;
+	ostream os;
 	int rowlen;
 	int collen;
 	BoundCheck2DIntArray(const BoundCheck2DIntArray& arr) {}

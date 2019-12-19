@@ -92,6 +92,18 @@ int main() {
 			ofs << "It is Wrong!";
 		}
 	}
+	ofstream off;
+	off.open("ex02.txt");
+	off.write("This is an apple", 16);
+
+	long pos = off.tellp();
+	off.seekp(pos - 7);
+	off.write(" sam", 4);
+
+	off.seekp(0, ios_base::end);
+	char c = '!';
+	off.put(c);
+	off.close();
 	ifs.close();
 	ofs.close();
 }
